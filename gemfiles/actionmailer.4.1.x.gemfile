@@ -1,0 +1,4 @@
+source "http://rubygems.org"
+
+gem 'actionmailer', '~> 4.1'
+gemspec :path => '../'

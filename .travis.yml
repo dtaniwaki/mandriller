@@ -1,0 +1,19 @@
+language: ruby
+
+rvm:
+  - 1.9.3
+  - 2.0.0
+  - 2.1.0
+gemfile:
+  - gemfiles/gemfile
+  - gemfiles/actionmailer.3.0.x.gemfile
+  - gemfiles/actionmailer.3.1.x.gemfile
+  - gemfiles/actionmailer.3.2.x.gemfile
+  - gemfiles/actionmailer.4.0.x.gemfile
+  - gemfiles/actionmailer.4.1.x.gemfile
+
+script: "bundle exec rake spec"
+
+branches:
+  only:
+    - master
