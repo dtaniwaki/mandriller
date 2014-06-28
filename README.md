@@ -1,5 +1,7 @@
 # mandriller
 
+[![Gem Version](https://badge.fury.io/rb/mandriller.svg)](http://badge.fury.io/rb/mandriller) [![Build Status](https://secure.travis-ci.org/dtaniwaki/mandriller.png)](http://travis-ci.org/dtaniwaki/mandriller) [![Coverage Status](https://coveralls.io/repos/dtaniwaki/mandriller/badge.png)](https://coveralls.io/r/dtaniwaki/mandriller)
+
 Mandriller SMTP API integration for ActionMailer.
 
 ## Installation
