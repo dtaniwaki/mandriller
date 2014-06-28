@@ -1,4 +1,5 @@
 require 'action_mailer'
+require 'multi_json'
 require_relative 'settings_methods'
 
 class Mandriller::Base < ActionMailer::Base
@@ -50,7 +51,8 @@ class Mandriller::Base < ActionMailer::Base
   end
 
   def set_google_analytics(*domains)
-    @mandrill_google_analytics = domains.flatten
+    domains = domains.flatten.compact
+    @mandrill_google_analytics = domains
   end
 
   def mail(*args)
@@ -67,11 +69,11 @@ class Mandriller::Base < ActionMailer::Base
       self.headers['X-MC-Track'] = tracks.join(',')
     end
 
-    v = get_mandrill_setting("template")
-    self.headers['X-MC-Template'] = v.join('|') unless v.nil?
+    v = instance_variable_defined?("@mandrill_template") ? instance_variable_get("@mandrill_template") : self.mandrill_template
+    self.headers['X-MC-Template'] = v.join('|') unless v.nil? || v.empty?
 
-    v = get_mandrill_setting("google_analytics")
-    self.headers['X-MC-GoogleAnalytics'] = v.join(',') unless v.nil?
+    v = instance_variable_defined?("@mandrill_google_analytics") ? instance_variable_get("@mandrill_google_analytics") : self.mandrill_google_analytics
+    self.headers['X-MC-GoogleAnalytics'] = v.join(',') unless v.nil? || v.empty?
 
     v = get_mandrill_setting("send_at")
     self.headers['X-MC-SendAt'] = v.to_time.utc.strftime('%Y-%m-%d %H:%M:%S') unless v.nil?
@@ -88,7 +90,7 @@ class Mandriller::Base < ActionMailer::Base
 
     JSON_SETTINGS.each do |key, header_name|
       v = get_mandrill_setting(key)
-      self.headers[header_name] = v.to_json unless v.nil?
+      self.headers[header_name] = MultiJson.dump(v) unless v.nil?
     end
 
     m
