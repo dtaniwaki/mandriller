@@ -25,7 +25,6 @@ describe Mandriller::Base do
     url_strip_qs:              'X-MC-URLStripQS',
     preserve_recipients:       'X-MC-PreserveRecipients',
     inline_css:                'X-MC-InlineCSS',
-    google_analytics_campaign: 'X-MC-GoogleAnalyticsCampaign',
     view_content_link:         'X-MC-ViewContentLink',
     import:                    'X-MC-Important',
   }
@@ -87,6 +86,7 @@ describe Mandriller::Base do
     subaccount:                'X-MC-Subaccount',
     bcc_address:               'X-MC-BccAddress',
     ip_pool:                   'X-MC-IpPool',
+    google_analytics_campaign: 'X-MC-GoogleAnalyticsCampaign',
     return_path_domain:        'X-MC-ReturnPathDomain',
   }
   STRING_SETTINGS.each do |key, header|

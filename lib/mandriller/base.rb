@@ -11,7 +11,6 @@ class Mandriller::Base < ActionMailer::Base
     url_strip_qs:              'X-MC-URLStripQS',
     preserve_recipients:       'X-MC-PreserveRecipients',
     inline_css:                'X-MC-InlineCSS',
-    google_analytics_campaign: 'X-MC-GoogleAnalyticsCampaign',
     view_content_link:         'X-MC-ViewContentLink',
     import:                    'X-MC-Important',
   }
@@ -21,6 +20,7 @@ class Mandriller::Base < ActionMailer::Base
     subaccount:                'X-MC-Subaccount',
     bcc_address:               'X-MC-BccAddress',
     ip_pool:                   'X-MC-IpPool',
+    google_analytics_campaign: 'X-MC-GoogleAnalyticsCampaign',
     return_path_domain:        'X-MC-ReturnPathDomain',
   }
   JSON_SETTINGS = {
