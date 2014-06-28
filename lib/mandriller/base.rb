@@ -31,7 +31,7 @@ class Mandriller::Base < ActionMailer::Base
   define_settings_methods STRING_SETTINGS.keys
   define_settings_methods JSON_SETTINGS.keys
   define_settings_methods :open_track, default: true
-  define_settings_methods :click_track, default: 'clicks'
+  define_settings_methods :click_track, default: 'clicks_all'
   define_settings_methods :send_at
 
   class_attribute :mandrill_template, :mandrill_google_analytics
@@ -56,23 +56,18 @@ class Mandriller::Base < ActionMailer::Base
   end
 
   def mail(*args)
-    m = super(*args)
-
-    tracks = []
-    tracks << ((@mandrill_open_track.nil? ? self.mandrill_open_track : @mandrill_open_track) ? 'opens' : nil)
-    tracks << (@mandrill_click_track.nil? ? self.mandrill_click_track : @mandrill_click_track)
-    tracks = tracks.compact.map(&:to_s)
+    tracks = [get_mandrill_setting("open_track") ? 'opens' : nil, get_mandrill_setting("click_track")].compact.map(&:to_s)
     unless tracks.empty?
       tracks.each do |track|
-        validate_values!(track, %w(opens clicks_all clicks clicks_htmlonly clicks_textonly))
+        validate_values!(track, %w(opens clicks_all clicks_htmlonly clicks_textonly))
       end
       self.headers['X-MC-Track'] = tracks.join(',')
     end
 
-    v = instance_variable_defined?("@mandrill_template") ? instance_variable_get("@mandrill_template") : self.mandrill_template
+    v = get_mandrill_setting("template")
     self.headers['X-MC-Template'] = v.join('|') unless v.nil? || v.empty?
 
-    v = instance_variable_defined?("@mandrill_google_analytics") ? instance_variable_get("@mandrill_google_analytics") : self.mandrill_google_analytics
+    v = get_mandrill_setting("google_analytics")
     self.headers['X-MC-GoogleAnalytics'] = v.join(',') unless v.nil? || v.empty?
 
     v = get_mandrill_setting("send_at")
@@ -93,7 +88,7 @@ class Mandriller::Base < ActionMailer::Base
       self.headers[header_name] = MultiJson.dump(v) unless v.nil?
     end
 
-    m
+    super(*args)
   end
 
   private
