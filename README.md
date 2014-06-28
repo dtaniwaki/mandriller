@@ -46,9 +46,9 @@ Enable open-tracking for the message.
 
 Enable click-tracking for the message.
 
-`set_click_track 'clicks_all'`: enables click tracking on all emails
-`set_click_track 'clicks_htmlonly'`: enables click tracking only on html emails
-`set_click_track 'clicks_textonly'`: enables click tracking only on text emails
+`set_click_track 'all'`: enables click tracking on all emails
+`set_click_track 'htmlonly'`: enables click tracking only on html emails
+`set_click_track 'textonly'`: enables click tracking only on text emails
 
 ### set_auto_text
 

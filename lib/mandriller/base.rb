@@ -31,7 +31,7 @@ class Mandriller::Base < ActionMailer::Base
   define_settings_methods STRING_SETTINGS.keys
   define_settings_methods JSON_SETTINGS.keys
   define_settings_methods :open_track, default: true
-  define_settings_methods :click_track, default: 'clicks_all'
+  define_settings_methods :click_track, default: 'all'
   define_settings_methods :send_at
 
   class_attribute :mandrill_template, :mandrill_google_analytics
@@ -56,7 +56,12 @@ class Mandriller::Base < ActionMailer::Base
   end
 
   def mail(*args)
-    tracks = [get_mandrill_setting("open_track") ? 'opens' : nil, get_mandrill_setting("click_track")].compact.map(&:to_s)
+    tracks = []
+    tracks << (get_mandrill_setting("open_track") ? 'opens' : nil)
+    if v = get_mandrill_setting("click_track")
+      tracks << "clicks_#{v}"
+    end
+    tracks = tracks.compact.map(&:to_s)
     unless tracks.empty?
       tracks.each do |track|
         validate_values!(track, %w(opens clicks_all clicks_htmlonly clicks_textonly))

@@ -165,20 +165,20 @@ describe Mandriller::Base do
       it_behaves_like "with header", 'X-MC-Track', 'opens'
     end
     context "set by #set_open_track" do
-      let(:local_settings) { lambda{ set_click_track :clicks } }
-      it_behaves_like "with header", 'X-MC-Track', 'clicks'
+      let(:local_settings) { lambda{ set_click_track :all } }
+      it_behaves_like "with header", 'X-MC-Track', 'clicks_all'
       context "invalid type" do
         let(:local_settings) { lambda{ set_click_track :invalid } }
         it_behaves_like "raise an exception", Mandriller::InvalidHeaderValue
       end
     end
     context "set by ::set_open_track" do
-      let(:global_settings) { lambda{ set_click_track :clicks } }
-      it_behaves_like "with header", 'X-MC-Track', 'clicks'
+      let(:global_settings) { lambda{ set_click_track :all } }
+      it_behaves_like "with header", 'X-MC-Track', 'clicks_all'
     end
     context "set by both ::set_open_track and ::set_click_track" do
-      let(:global_settings) { lambda{ set_open_track; set_click_track :clicks } }
-      it_behaves_like "with header", 'X-MC-Track', 'opens,clicks'
+      let(:global_settings) { lambda{ set_open_track; set_click_track :all } }
+      it_behaves_like "with header", 'X-MC-Track', 'opens,clicks_all'
     end
   end
 
