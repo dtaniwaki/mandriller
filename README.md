@@ -2,7 +2,8 @@
 
 [![Gem Version](https://badge.fury.io/rb/mandriller.svg)](http://badge.fury.io/rb/mandriller) [![Build Status](https://secure.travis-ci.org/dtaniwaki/mandriller.png)](http://travis-ci.org/dtaniwaki/mandriller) [![Coverage Status](https://coveralls.io/repos/dtaniwaki/mandriller/badge.png)](https://coveralls.io/r/dtaniwaki/mandriller) [![Code Climate](https://codeclimate.com/github/dtaniwaki/mandriller.png)](https://codeclimate.com/github/dtaniwaki/mandriller)
 
-Mandriller SMTP API integration for ActionMailer.
+[Mandrill](http://mandrill.com/) SMTP API integration for ActionMailer.
+See detail of the protocol on [the official page](http://help.mandrill.com/entries/21688056-Using-SMTP-Headers-to-customize-your-messages).
 
 ## Installation
 
