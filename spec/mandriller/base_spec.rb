@@ -149,6 +149,38 @@ describe Mandriller::Base do
     end
   end
 
+  ARRAY_SETTINGS = {
+    google_analytics:     'X-MC-GoogleAnalytics',
+    tags:                 'X-MC-Tags',
+  }
+  ARRAY_SETTINGS.each do |key, header|
+    describe "X-MC-GoogleAnalytics header" do
+      context "no set" do
+        it_behaves_like "without header", header
+      end
+      context "set by #set_#{key}" do
+        let(:local_settings) { lambda{ __send__("set_#{key}", ['string1', 'string2']) } }
+        it_behaves_like "with header", header, 'string1,string2'
+      end
+      context "set by ::set_#{key}" do
+        let(:global_settings) { lambda{ __send__("set_#{key}", ['string1', 'string2']) } }
+        it_behaves_like "with header", header, 'string1,string2'
+      end
+      context "set by both #set_#{key} and ::set_#{key}" do
+        context "set value globally and set value locally" do
+          let(:global_settings) { lambda{ __send__("set_#{key}", ['string1', 'string2']) } }
+          let(:local_settings) { lambda{ __send__("set_#{key}", ['string2', 'string3']) } }
+          it_behaves_like "with header", header, 'string2,string3'
+        end
+        context "set value globally but set nil locally" do
+          let(:global_settings) { lambda{ __send__("set_#{key}", ['string1', 'string2']) } }
+          let(:local_settings) { lambda{ __send__("set_#{key}", nil) } }
+          it_behaves_like "without header", header
+        end
+      end
+    end
+  end
+
   describe "X-MC-Track header" do
     header = "X-MC-Track"
     context "no set" do
@@ -204,34 +236,6 @@ describe Mandriller::Base do
       end
       context "set value globally but set nil locally" do
         let(:global_settings) { lambda{ __send__("set_#{key}", 'template1', 'block1') } }
-        let(:local_settings) { lambda{ __send__("set_#{key}", nil) } }
-        it_behaves_like "without header", header
-      end
-    end
-  end
-
-  describe "X-MC-GoogleAnalytics header" do
-    key = "google_analytics"
-    header = "X-MC-GoogleAnalytics"
-    context "no set" do
-      it_behaves_like "without header", header
-    end
-    context "set by #set_#{key}" do
-      let(:local_settings) { lambda{ __send__("set_#{key}", 'domain1', 'domain2') } }
-      it_behaves_like "with header", header, 'domain1,domain2'
-    end
-    context "set by ::set_#{key}" do
-      let(:global_settings) { lambda{ __send__("set_#{key}", 'domain1', 'domain2') } }
-      it_behaves_like "with header", header, 'domain1,domain2'
-    end
-    context "set by both #set_#{key} and ::set_#{key}" do
-      context "set value globally and set value locally" do
-        let(:global_settings) { lambda{ __send__("set_#{key}", 'domain1', 'domain2') } }
-        let(:local_settings) { lambda{ __send__("set_#{key}", 'domain2', 'domain3') } }
-        it_behaves_like "with header", header, 'domain2,domain3'
-      end
-      context "set value globally but set nil locally" do
-        let(:global_settings) { lambda{ __send__("set_#{key}", 'domain1', 'domain2') } }
         let(:local_settings) { lambda{ __send__("set_#{key}", nil) } }
         it_behaves_like "without header", header
       end

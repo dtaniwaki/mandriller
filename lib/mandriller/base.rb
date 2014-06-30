@@ -27,32 +27,28 @@ class Mandriller::Base < ActionMailer::Base
     metadata:                  'X-MC-Metadata',
     merge_vars:                'X-MC-MergeVars',
   }
+  ARRAY_SETTINGS = {
+    google_analytics:          'X-MC-GoogleAnalytics',
+    tags:                      'X-MC-Tags',
+  }
   define_settings_methods BOOLEAN_SETTINGS.keys, default: true
   define_settings_methods STRING_SETTINGS.keys
   define_settings_methods JSON_SETTINGS.keys
+  define_settings_methods ARRAY_SETTINGS.keys
   define_settings_methods :open_track, default: true
   define_settings_methods :click_track, default: 'all'
   define_settings_methods :send_at
 
-  class_attribute :mandrill_template, :mandrill_google_analytics
+  class_attribute :mandrill_template
 
   class << self
     def set_template(template_name, block_name = nil)
       self.mandrill_template = [template_name, block_name]
     end
-
-    def set_google_analytics(*domains)
-      self.mandrill_google_analytics = domains.flatten
-    end
   end
 
   def set_template(template_name, block_name = nil)
     @mandrill_template = [template_name, block_name].compact
-  end
-
-  def set_google_analytics(*domains)
-    domains = domains.flatten.compact
-    @mandrill_google_analytics = domains
   end
 
   def mail(*args)
@@ -72,9 +68,6 @@ class Mandriller::Base < ActionMailer::Base
     v = get_mandrill_setting("template")
     self.headers['X-MC-Template'] = v.join('|') unless v.nil? || v.empty?
 
-    v = get_mandrill_setting("google_analytics")
-    self.headers['X-MC-GoogleAnalytics'] = v.join(',') unless v.nil? || v.empty?
-
     v = get_mandrill_setting("send_at")
     self.headers['X-MC-SendAt'] = v.to_time.utc.strftime('%Y-%m-%d %H:%M:%S') unless v.nil?
 
@@ -91,6 +84,11 @@ class Mandriller::Base < ActionMailer::Base
     JSON_SETTINGS.each do |key, header_name|
       v = get_mandrill_setting(key)
       self.headers[header_name] = MultiJson.dump(v) unless v.nil?
+    end
+
+    ARRAY_SETTINGS.each do |key, header_name|
+      v = get_mandrill_setting(key)
+      self.headers[header_name] = Array(v).join(',') unless v.nil?
     end
 
     super(*args)

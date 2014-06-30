@@ -40,7 +40,7 @@ class UserMailer < Mandriller::Base
 
   set_open_track
   set_click_track
-  set_google_analytics Settings.root_host, Settings.admin.host
+  set_google_analytics [Settings.root_host, Settings.admin.host].uniq
 
   before_filter do
     set_google_analytics_campaign "#{mailer_name.gsub(/_mailer$/, '')}/#{action_name.gsub(/_email$/, '')}"
@@ -109,7 +109,7 @@ Add dynamic data to replace mergetags that appear in your message content.
 
 Add Google Analytics tracking to links in your email for the specified domains.
 
-- `set_google_analytics 'foo.com', 'bar.com'`
+- `set_google_analytics ['foo.com', 'bar.com'`]
 
 ### set_google_analytics_campaign
 
@@ -203,6 +203,12 @@ Specify a future date/time that the message should be [scheduled](http://help.ma
 - `set_send_at 5.days.from_now`
 
 __Only available for paid accounts__
+
+### set_tags
+
+Add tags to your emails.
+
+- `set_tags ['tag1', 'tag2'`]
 
 ## Contributing
 
