@@ -71,7 +71,7 @@ class Mandriller::Base < ActionMailer::Base
     v = mandrill_template
     self.headers['X-MC-Template'] = v.join('|') unless v.nil? || v.empty?
 
-    (BOOLEAN_SETTINGS.to_a + STRING_SETTINGS.to_a + JSON_SETTINGS.to_a + ARRAY_SETTINGS.to_a + DATETIME_SETTINGS.to_a).each do |key, header_name|
+    [BOOLEAN_SETTINGS, STRING_SETTINGS, JSON_SETTINGS, ARRAY_SETTINGS, DATETIME_SETTINGS].inject({}, :merge).each do |key, header_name|
       if is_mandrill_setting_defined?(key)
         self.headers[header_name] = get_mandrill_setting(key)
       end
