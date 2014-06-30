@@ -31,10 +31,10 @@ class Mandriller::Base < ActionMailer::Base
     google_analytics:          'X-MC-GoogleAnalytics',
     tags:                      'X-MC-Tags',
   }
-  define_settings_methods BOOLEAN_SETTINGS.keys, default: true
-  define_settings_methods STRING_SETTINGS.keys
-  define_settings_methods JSON_SETTINGS.keys
-  define_settings_methods ARRAY_SETTINGS.keys
+  define_settings_methods BOOLEAN_SETTINGS.keys, default: true, getter: lambda { |v| v ? 'true' : 'false' }
+  define_settings_methods STRING_SETTINGS.keys, getter: lambda { |v| v.to_s }
+  define_settings_methods JSON_SETTINGS.keys, getter: lambda { |v| MultiJson.dump(v) }
+  define_settings_methods ARRAY_SETTINGS.keys, getter: lambda { |v| Array(v).join(',') }
   define_settings_methods :open_track, default: true
   define_settings_methods :click_track, default: 'all'
   define_settings_methods :send_at
@@ -53,8 +53,8 @@ class Mandriller::Base < ActionMailer::Base
 
   def mail(*args)
     tracks = []
-    tracks << (get_mandrill_setting("open_track") ? 'opens' : nil)
-    if v = get_mandrill_setting("click_track")
+    tracks << (mandrill_open_track ? 'opens' : nil)
+    if v = mandrill_click_track
       tracks << "clicks_#{v}"
     end
     tracks = tracks.compact.map(&:to_s)
@@ -65,30 +65,16 @@ class Mandriller::Base < ActionMailer::Base
       self.headers['X-MC-Track'] = tracks.join(',')
     end
 
-    v = get_mandrill_setting("template")
+    v = mandrill_template
     self.headers['X-MC-Template'] = v.join('|') unless v.nil? || v.empty?
 
-    v = get_mandrill_setting("send_at")
+    v = mandrill_send_at
     self.headers['X-MC-SendAt'] = v.to_time.utc.strftime('%Y-%m-%d %H:%M:%S') unless v.nil?
 
-    BOOLEAN_SETTINGS.each do |key, header_name|
-      v = get_mandrill_setting(key)
-      self.headers[header_name] = v ? 'true' : 'false' unless v.nil?
-    end
-
-    STRING_SETTINGS.each do |key, header_name|
-      v = get_mandrill_setting(key)
-      self.headers[header_name] = v.to_s unless v.nil?
-    end
-
-    JSON_SETTINGS.each do |key, header_name|
-      v = get_mandrill_setting(key)
-      self.headers[header_name] = MultiJson.dump(v) unless v.nil?
-    end
-
-    ARRAY_SETTINGS.each do |key, header_name|
-      v = get_mandrill_setting(key)
-      self.headers[header_name] = Array(v).join(',') unless v.nil?
+    (BOOLEAN_SETTINGS.to_a + STRING_SETTINGS.to_a + JSON_SETTINGS.to_a + ARRAY_SETTINGS.to_a).each do |key, header_name|
+      if is_mandrill_setting_defined?(key)
+        self.headers[header_name] = get_mandrill_setting(key)
+      end
     end
 
     super(*args)
