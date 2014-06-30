@@ -16,18 +16,23 @@ module Mandriller
         getter = options[:getter]
 
         keys.flatten.each do |key|
-          class_eval <<-EOS
-          class_attribute :mandrill_#{key}
-          def self.set_mandrill_setting_#{key}(#{arg_s})
+          class_attribute "mandrill_#{key}"
+
+          method_name = "set_mandrill_setting_#{key}"
+          singleton_class.class_eval <<-EOS
+          def #{method_name}(#{arg_s})
             self.mandrill_#{key} = v
           end
-          private_class_method :set_mandrill_setting_#{key}
-          self.singleton_class.send :alias_method, :set_#{key}, :set_mandrill_setting_#{key}
-          def set_mandrill_setting_#{key}(#{arg_s})
+          private :#{method_name}
+          alias_method :set_#{key}, :#{method_name}
+          EOS
+
+          class_eval <<-EOS
+          def #{method_name}(#{arg_s})
             @mandrill_#{key} = v
           end
-          private :set_mandrill_setting_#{key}
-          alias_method :set_#{key}, :set_mandrill_setting_#{key}
+          private :#{method_name}
+          alias_method :set_#{key}, :#{method_name}
           EOS
 
           method_name = "get_mandrill_setting_#{key}"
@@ -50,8 +55,7 @@ module Mandriller
     private :get_mandrill_setting_value
 
     def is_mandrill_setting_defined?(key)
-      v = get_mandrill_setting_value(key)
-      !v.nil?
+      !get_mandrill_setting_value(key).nil?
     end
     private :is_mandrill_setting_defined?
 
