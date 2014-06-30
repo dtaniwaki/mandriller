@@ -18,34 +18,47 @@ module Mandriller
         keys.flatten.each do |key|
           class_attribute "mandrill_#{key}"
 
-          method_name = "set_mandrill_setting_#{key}"
-          singleton_class.class_eval <<-EOS
-          def #{method_name}(#{arg_s})
-            self.mandrill_#{key} = v
-          end
-          private :#{method_name}
-          alias_method :set_#{key}, :#{method_name}
-          EOS
-
-          class_eval <<-EOS
-          def #{method_name}(#{arg_s})
-            @mandrill_#{key} = v
-          end
-          private :#{method_name}
-          alias_method :set_#{key}, :#{method_name}
-          EOS
-
-          method_name = "get_mandrill_setting_#{key}"
-          define_method method_name do
-            v = get_mandrill_setting_value(key)
-            if getter
-              getter.call(v)
-            else
-              v
-            end
-          end
-          private method_name
+          define_mandrill_class_setter(key, arg_s)
+          define_mandrill_setter(key, arg_s)
+          define_mandrill_getter(key, getter)
         end
+      end
+
+      private
+
+      def define_mandrill_class_setter(key, arg_s)
+        method_name = "set_mandrill_setting_#{key}"
+        singleton_class.class_eval <<-EOS
+        def #{method_name}(#{arg_s})
+          self.mandrill_#{key} = v
+        end
+        private :#{method_name}
+        alias_method :set_#{key}, :#{method_name}
+        EOS
+      end
+
+      def define_mandrill_setter(key, arg_s)
+        method_name = "set_mandrill_setting_#{key}"
+        class_eval <<-EOS
+        def #{method_name}(#{arg_s})
+          @mandrill_#{key} = v
+        end
+        private :#{method_name}
+        alias_method :set_#{key}, :#{method_name}
+        EOS
+      end
+
+      def define_mandrill_getter(key, getter)
+        method_name = "get_mandrill_setting_#{key}"
+        define_method method_name do
+          v = get_mandrill_setting_value(key)
+          if getter
+            getter.call(v)
+          else
+            v
+          end
+        end
+        private method_name
       end
     end
 
