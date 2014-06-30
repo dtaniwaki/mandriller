@@ -31,13 +31,16 @@ class Mandriller::Base < ActionMailer::Base
     google_analytics:          'X-MC-GoogleAnalytics',
     tags:                      'X-MC-Tags',
   }
+  DATETIME_SETTINGS = {
+    send_at:                   'X-MC-SendAt',
+  }
   define_settings_methods BOOLEAN_SETTINGS.keys, default: true, getter: lambda { |v| v ? 'true' : 'false' }
   define_settings_methods STRING_SETTINGS.keys, getter: lambda { |v| v.to_s }
   define_settings_methods JSON_SETTINGS.keys, getter: lambda { |v| MultiJson.dump(v) }
   define_settings_methods ARRAY_SETTINGS.keys, getter: lambda { |v| Array(v).join(',') }
+  define_settings_methods DATETIME_SETTINGS.keys, getter: lambda { |v| v.to_time.utc.strftime('%Y-%m-%d %H:%M:%S') }
   define_settings_methods :open_track, default: true
   define_settings_methods :click_track, default: 'all'
-  define_settings_methods :send_at
 
   class_attribute :mandrill_template
 
@@ -68,10 +71,7 @@ class Mandriller::Base < ActionMailer::Base
     v = mandrill_template
     self.headers['X-MC-Template'] = v.join('|') unless v.nil? || v.empty?
 
-    v = mandrill_send_at
-    self.headers['X-MC-SendAt'] = v.to_time.utc.strftime('%Y-%m-%d %H:%M:%S') unless v.nil?
-
-    (BOOLEAN_SETTINGS.to_a + STRING_SETTINGS.to_a + JSON_SETTINGS.to_a + ARRAY_SETTINGS.to_a).each do |key, header_name|
+    (BOOLEAN_SETTINGS.to_a + STRING_SETTINGS.to_a + JSON_SETTINGS.to_a + ARRAY_SETTINGS.to_a + DATETIME_SETTINGS.to_a).each do |key, header_name|
       if is_mandrill_setting_defined?(key)
         self.headers[header_name] = get_mandrill_setting(key)
       end

@@ -154,7 +154,7 @@ describe Mandriller::Base do
     tags:                 'X-MC-Tags',
   }
   ARRAY_SETTINGS.each do |key, header|
-    describe "X-MC-GoogleAnalytics header" do
+    describe "#{header} header" do
       context "no set" do
         it_behaves_like "without header", header
       end
@@ -174,6 +174,37 @@ describe Mandriller::Base do
         end
         context "set value globally but set nil locally" do
           let(:global_settings) { lambda{ __send__("set_#{key}", ['string1', 'string2']) } }
+          let(:local_settings) { lambda{ __send__("set_#{key}", nil) } }
+          it_behaves_like "without header", header
+        end
+      end
+    end
+  end
+
+  DATETIME_SETTINGS = {
+    send_at:       'X-MC-SendAt',
+  }
+  DATETIME_SETTINGS.each do |key, header|
+    describe "#{header} header" do
+      context "no set" do
+        it_behaves_like "without header", header
+      end
+      context "set by #set_#{key}" do
+        let(:local_settings) { lambda{ __send__("set_#{key}", DateTime.new(2001, 1, 2, 3, 4, 5)) } }
+        it_behaves_like "with header", header, '2001-01-02 03:04:05'
+      end
+      context "set by ::set_#{key}" do
+        let(:global_settings) { lambda{ __send__("set_#{key}", DateTime.new(2001, 1, 2, 3, 4, 5)) } }
+        it_behaves_like "with header", header, '2001-01-02 03:04:05'
+      end
+      context "set by both #set_#{key} and ::set_#{key}" do
+        context "set value globally and set value locally" do
+          let(:global_settings) { lambda{ __send__("set_#{key}", DateTime.new(2001, 1, 2, 3, 4, 5)) } }
+          let(:local_settings) { lambda{ __send__("set_#{key}", DateTime.new(2001, 1, 2, 3, 4, 6)) } }
+          it_behaves_like "with header", header, '2001-01-02 03:04:06'
+        end
+        context "set value globally but set nil locally" do
+          let(:global_settings) { lambda{ __send__("set_#{key}", DateTime.new(2001, 1, 2, 3, 4, 5)) } }
           let(:local_settings) { lambda{ __send__("set_#{key}", nil) } }
           it_behaves_like "without header", header
         end
@@ -236,34 +267,6 @@ describe Mandriller::Base do
       end
       context "set value globally but set nil locally" do
         let(:global_settings) { lambda{ __send__("set_#{key}", 'template1', 'block1') } }
-        let(:local_settings) { lambda{ __send__("set_#{key}", nil) } }
-        it_behaves_like "without header", header
-      end
-    end
-  end
-
-  describe "X-MC-SendAt header" do
-    key = 'send_at'
-    header = "X-MC-SendAt"
-    context "no set" do
-      it_behaves_like "without header", header
-    end
-    context "set by #set_#{key}" do
-      let(:local_settings) { lambda{ __send__("set_#{key}", DateTime.new(2001, 1, 2, 3, 4, 5)) } }
-      it_behaves_like "with header", header, '2001-01-02 03:04:05'
-    end
-    context "set by ::set_#{key}" do
-      let(:global_settings) { lambda{ __send__("set_#{key}", DateTime.new(2001, 1, 2, 3, 4, 5)) } }
-      it_behaves_like "with header", header, '2001-01-02 03:04:05'
-    end
-    context "set by both #set_#{key} and ::set_#{key}" do
-      context "set value globally and set value locally" do
-        let(:global_settings) { lambda{ __send__("set_#{key}", DateTime.new(2001, 1, 2, 3, 4, 5)) } }
-        let(:local_settings) { lambda{ __send__("set_#{key}", DateTime.new(2001, 1, 2, 3, 4, 6)) } }
-        it_behaves_like "with header", header, '2001-01-02 03:04:06'
-      end
-      context "set value globally but set nil locally" do
-        let(:global_settings) { lambda{ __send__("set_#{key}", DateTime.new(2001, 1, 2, 3, 4, 5)) } }
         let(:local_settings) { lambda{ __send__("set_#{key}", nil) } }
         it_behaves_like "without header", header
       end
