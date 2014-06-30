@@ -37,7 +37,7 @@ class Mandriller::Base < ActionMailer::Base
   class_attribute :mandrill_template, :mandrill_google_analytics
 
   class << self
-    def set_template(template_name, block_name)
+    def set_template(template_name, block_name = nil)
       self.mandrill_template = [template_name, block_name]
     end
 
