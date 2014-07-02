@@ -1,6 +1,10 @@
 # mandriller
 
-[![Gem Version](https://badge.fury.io/rb/mandriller.svg)](http://badge.fury.io/rb/mandriller) [![Build Status](https://secure.travis-ci.org/dtaniwaki/mandriller.png)](http://travis-ci.org/dtaniwaki/mandriller) [![Coverage Status](https://coveralls.io/repos/dtaniwaki/mandriller/badge.png)](https://coveralls.io/r/dtaniwaki/mandriller) [![Code Climate](https://codeclimate.com/github/dtaniwaki/mandriller.png)](https://codeclimate.com/github/dtaniwaki/mandriller)
+[![Gem Version][gem-image]][gem-link]
+[![Dependency Status][deps-image]][deps-link]
+[![Build Status][build-image]][build-link]
+[![Coverage Status][cov-image]][cov-link]
+[![Code Climate][gpa-image]][gpa-link]
 
 [Mandrill](http://mandrill.com/) SMTP API integration for ActionMailer.
 See detail of the protocol on [the official page](http://help.mandrill.com/entries/21688056-Using-SMTP-Headers-to-customize-your-messages).
@@ -221,3 +225,17 @@ Add tags to your emails.
 ## Copyright
 
 Copyright (c) 2014 Daisuke Taniwaki. See [LICENSE](LICENSE) for details.
+
+
+
+[gem-image]:   https://badge.fury.io/rb/mandriller.svg
+[gem-link]:    http://badge.fury.io/rb/mandriller
+[build-image]: https://secure.travis-ci.org/dtaniwaki/mandriller.png
+[build-link]:  http://travis-ci.org/dtaniwaki/mandriller
+[deps-image]:  https://gemnasium.com/dtaniwaki/mandriller.svg
+[deps-link]:   https://gemnasium.com/dtaniwaki/mandriller
+[cov-image]:   https://coveralls.io/repos/dtaniwaki/mandriller/badge.png
+[cov-link]:    https://coveralls.io/r/dtaniwaki/mandriller
+[gpa-image]:   https://codeclimate.com/github/dtaniwaki/mandriller.png
+[gpa-link]:    https://codeclimate.com/github/dtaniwaki/mandriller
+
