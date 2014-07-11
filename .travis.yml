@@ -3,14 +3,14 @@ language: ruby
 rvm:
   - 1.9.3
   - 2.0.0
-  - 2.1.0
-gemfile:
-  - gemfiles/gemfile
-  - gemfiles/actionmailer.3.0.x.gemfile
-  - gemfiles/actionmailer.3.1.x.gemfile
-  - gemfiles/actionmailer.3.2.x.gemfile
-  - gemfiles/actionmailer.4.0.x.gemfile
-  - gemfiles/actionmailer.4.1.x.gemfile
+  - 2.1
+env:
+  -
+  - ACTION_MAILER_VERSION=3.0.0
+  - ACTION_MAILER_VERSION=3.1.0
+  - ACTION_MAILER_VERSION=3.2.0
+  - ACTION_MAILER_VERSION=4.0.0
+  - ACTION_MAILER_VERSION=4.1.0
 
 script: "bundle exec rake spec"
 
