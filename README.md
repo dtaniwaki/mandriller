@@ -107,7 +107,7 @@ the name of the mc:edit region where the body of the SMTP generated message will
 
 Add dynamic data to replace mergetags that appear in your message content.
 
-- `set_merge_vars {foo: 1, bar: 2}`
+- `set_merge_vars foo: 1, bar: 2`
 
 ### set_google_analytics
 
@@ -125,7 +125,7 @@ Add an optional value to be used for the __utm_campaign parameter__ in Google An
 
 Information about any custom fields or data you want to append to the message.
 
-- `set_metadata {foo: 1, bar: 2}`
+- `set_metadata foo: 1, bar: 2`
 
 ### set_url_strip_qs
 
