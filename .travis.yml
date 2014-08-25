@@ -11,6 +11,7 @@ env:
   - ACTION_MAILER_VERSION=3.2.0
   - ACTION_MAILER_VERSION=4.0.0
   - ACTION_MAILER_VERSION=4.1.0
+  - ACTION_MAILER_VERSION=4.2.0.beta1
 
 script: "bundle exec rake spec"
 
