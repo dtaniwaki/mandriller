@@ -12,7 +12,7 @@ class Mandriller::Base < ActionMailer::Base
     preserve_recipients:       'X-MC-PreserveRecipients',
     inline_css:                'X-MC-InlineCSS',
     view_content_link:         'X-MC-ViewContentLink',
-    import:                    'X-MC-Important',
+    important:                 'X-MC-Important',
   }
   STRING_SETTINGS = {
     tracking_domain:           'X-MC-TrackingDomain',
