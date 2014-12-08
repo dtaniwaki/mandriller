@@ -26,7 +26,7 @@ describe Mandriller::Base do
     preserve_recipients:       'X-MC-PreserveRecipients',
     inline_css:                'X-MC-InlineCSS',
     view_content_link:         'X-MC-ViewContentLink',
-    import:                    'X-MC-Important',
+    important:                 'X-MC-Important',
   }
   BOOLEAN_SETTINGS.each do |key, header|
     describe "#{header} header" do
