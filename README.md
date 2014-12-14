@@ -194,7 +194,7 @@ Specify a [dedicated IP pool](http://help.mandrill.com/entries/24182062-Can-I-ch
 
 - `set_ip_pool 'dedicated_ip_pool'`
 
-### set_retun_path_domain
+### set_return_path_domain
 
 Specify a [custom domain](http://help.mandrill.com/entries/25241243-Can-I-customize-the-Return-Path-bounce-address-used-for-my-emails-) to use for the message's return-path
 
