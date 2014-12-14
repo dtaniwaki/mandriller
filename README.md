@@ -93,7 +93,7 @@ Automatically generate an HTML version of the email from the plain-text content.
 
 Use an HTML template stored in your Mandrill account
 
-- `set_auto_html 'template_name'` or `set_auto_html 'template_name', 'block_name'`: 
+- `set_template 'template_name'` or `set_template 'template_name', 'block_name'`: 
 
 `template_name`
 
