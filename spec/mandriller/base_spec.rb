@@ -20,8 +20,8 @@ describe Mandriller::Base do
   subject { klass.foo }
 
   BOOLEAN_SETTINGS = {
-    autotext:                  'X-MC-Autotext',
-    autohtml:                  'X-MC-AutoHtml',
+    auto_text:                 'X-MC-Autotext',
+    auto_html:                 'X-MC-AutoHtml',
     url_strip_qs:              'X-MC-URLStripQS',
     preserve_recipients:       'X-MC-PreserveRecipients',
     inline_css:                'X-MC-InlineCSS',
