@@ -19,16 +19,7 @@ describe Mandriller::Base do
   end
   subject { klass.foo }
 
-  BOOLEAN_SETTINGS = {
-    auto_text:                 'X-MC-Autotext',
-    auto_html:                 'X-MC-AutoHtml',
-    url_strip_qs:              'X-MC-URLStripQS',
-    preserve_recipients:       'X-MC-PreserveRecipients',
-    inline_css:                'X-MC-InlineCSS',
-    view_content_link:         'X-MC-ViewContentLink',
-    important:                 'X-MC-Important',
-  }
-  BOOLEAN_SETTINGS.each do |key, header|
+  described_class::BOOLEAN_SETTINGS.each do |key, header|
     describe "#{header} header" do
       context "no set" do
         it_behaves_like "without header", header
@@ -80,16 +71,7 @@ describe Mandriller::Base do
     end
   end
 
-  STRING_SETTINGS = {
-    tracking_domain:           'X-MC-TrackingDomain',
-    signing_domain:            'X-MC-SigningDomain',
-    subaccount:                'X-MC-Subaccount',
-    bcc_address:               'X-MC-BccAddress',
-    ip_pool:                   'X-MC-IpPool',
-    google_analytics_campaign: 'X-MC-GoogleAnalyticsCampaign',
-    return_path_domain:        'X-MC-ReturnPathDomain',
-  }
-  STRING_SETTINGS.each do |key, header|
+  described_class::STRING_SETTINGS.each do |key, header|
     describe "#{header} header" do
       context "no set" do
         it_behaves_like "without header", header
@@ -117,11 +99,7 @@ describe Mandriller::Base do
     end
   end
 
-  JSON_SETTINGS = {
-    metadata:                  'X-MC-Metadata',
-    merge_vars:                'X-MC-MergeVars',
-  }
-  JSON_SETTINGS.each do |key, header|
+  described_class::JSON_SETTINGS.each do |key, header|
     describe "#{header} header" do
       context "no set" do
         it_behaves_like "without header", header
@@ -149,11 +127,7 @@ describe Mandriller::Base do
     end
   end
 
-  ARRAY_SETTINGS = {
-    google_analytics:     'X-MC-GoogleAnalytics',
-    tags:                 'X-MC-Tags',
-  }
-  ARRAY_SETTINGS.each do |key, header|
+  described_class::ARRAY_SETTINGS.each do |key, header|
     describe "#{header} header" do
       context "no set" do
         it_behaves_like "without header", header
@@ -181,10 +155,7 @@ describe Mandriller::Base do
     end
   end
 
-  DATETIME_SETTINGS = {
-    send_at:       'X-MC-SendAt',
-  }
-  DATETIME_SETTINGS.each do |key, header|
+  described_class::DATETIME_SETTINGS.each do |key, header|
     describe "#{header} header" do
       context "no set" do
         it_behaves_like "without header", header
