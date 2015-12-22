@@ -230,12 +230,12 @@ Copyright (c) 2014 Daisuke Taniwaki. See [LICENSE](LICENSE) for details.
 
 [gem-image]:   https://badge.fury.io/rb/mandriller.svg
 [gem-link]:    http://badge.fury.io/rb/mandriller
-[build-image]: https://secure.travis-ci.org/dtaniwaki/mandriller.png
-[build-link]:  http://travis-ci.org/dtaniwaki/mandriller
-[deps-image]:  https://gemnasium.com/dtaniwaki/mandriller.svg
-[deps-link]:   https://gemnasium.com/dtaniwaki/mandriller
-[cov-image]:   https://coveralls.io/repos/dtaniwaki/mandriller/badge.png
-[cov-link]:    https://coveralls.io/r/dtaniwaki/mandriller
-[gpa-image]:   https://codeclimate.com/github/dtaniwaki/mandriller.png
-[gpa-link]:    https://codeclimate.com/github/dtaniwaki/mandriller
+[build-image]: https://secure.travis-ci.org/dtaniwaki/mandriller.png?branch=master
+[build-link]:  http://travis-ci.org/dtaniwaki/mandriller?branch=master
+[deps-image]:  https://gemnasium.com/dtaniwaki/mandriller.svg?branch=master
+[deps-link]:   https://gemnasium.com/dtaniwaki/mandriller?branch=master
+[cov-image]:   https://coveralls.io/repos/dtaniwaki/mandriller/badge.png?branch=master
+[cov-link]:    https://coveralls.io/r/dtaniwaki/mandriller?branch=master
+[gpa-image]:   https://codeclimate.com/github/dtaniwaki/mandriller.png?branch=master
+[gpa-link]:    https://codeclimate.com/github/dtaniwaki/mandriller?branch=master
 
