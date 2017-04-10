@@ -16,6 +16,8 @@ Gem::Specification.new do |gem|
   gem.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   gem.require_paths = ['lib']
 
+  gem.required_ruby_version = ['>= 2.2', '< 2.5']
+
   gem.add_dependency "actionmailer", ">= 3.0"
   gem.add_dependency "multi_json"
 
