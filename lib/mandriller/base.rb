@@ -1,4 +1,5 @@
 require 'action_mailer'
+require 'active_support/rescuable'
 require 'multi_json'
 require_relative 'settings_methods'
 
