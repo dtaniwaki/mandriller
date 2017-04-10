@@ -18,7 +18,7 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = ['>= 2.2', '< 2.5']
 
-  gem.add_dependency "actionmailer", ">= 3.0"
+  gem.add_dependency "actionmailer", ['>= 3.0', '< 6.0']
   gem.add_dependency "multi_json"
 
   gem.add_development_dependency "rake"
