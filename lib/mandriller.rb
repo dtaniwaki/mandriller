@@ -1,6 +1,6 @@
+require 'action_mailer'
+require 'multi_json'
 require 'mandriller/version'
 require 'mandriller/errors'
+require 'mandriller/settings_methods'
 require 'mandriller/base'
-
-module Mandriller
-end

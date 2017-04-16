@@ -1,7 +1,3 @@
-require 'action_mailer'
-require 'multi_json'
-require_relative 'settings_methods'
-
 class Mandriller::Base < ActionMailer::Base
   include Mandriller::SettingsMethods
 
